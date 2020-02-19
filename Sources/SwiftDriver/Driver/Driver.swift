@@ -600,10 +600,6 @@ extension Driver {
       return
     }
 
-    if parsedOptions.hasArgument(.v) {
-      try printVersion(outputStream: &stderrStream)
-    }
-
     if jobs.isEmpty { return }
 
     let forceResponseFiles = parsedOptions.contains(.driverForceResponseFiles)
@@ -685,11 +681,6 @@ extension Driver {
       }
     }
     print(result)
-  }
-
-  private func printVersion<S: OutputByteStream>(outputStream: inout S) throws {
-    outputStream.write(try Process.checkNonZeroExit(args: toolchain.getToolPath(.swiftCompiler).pathString, "--version"))
-    outputStream.flush()
   }
 }
 

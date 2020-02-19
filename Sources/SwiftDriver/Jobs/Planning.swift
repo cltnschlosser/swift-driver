@@ -10,6 +10,8 @@
 //
 //===----------------------------------------------------------------------===//
 
+import TSCBasic
+
 public enum PlanningError: Error, DiagnosticData {
   case replReceivedInput
   case emitPCMWrongInputFiles
@@ -199,6 +201,11 @@ extension Driver {
 
     if let job = try immediateForwardingJob() {
       return [job]
+    }
+
+    if parsedOptions.hasArgument(.v) {
+      stderrStream.write(try Process.checkNonZeroExit(args: toolchain.getToolPath(.swiftCompiler).pathString, "--version"))
+      stderrStream.flush()
     }
 
     // Plan the build.
